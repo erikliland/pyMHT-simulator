@@ -14,7 +14,6 @@ packages = find_packages(exclude=['logs', 'data', 'profile'])
 
 setup(
     name=name,
-    version=version,
     author=author,
     author_email=author_email,
     description=description,
