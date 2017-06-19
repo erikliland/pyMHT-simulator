@@ -29,7 +29,7 @@ class ScenarioBase:
         # Expected number of measurements from new targets
         # per unit area of the measurement space
         self.lambda_nu = 2e-8
-        self.lambda_local = 1
+        self.lambda_local = 0
 
         assert self.simulationTimeStep <= self.radarPeriod
         assert self.simTime >= self.simulationTimeStep
@@ -44,6 +44,14 @@ class ScenarioBase:
         scenariosettingsElement = ET.SubElement(scenarioElement, scenariosettingsTag)
         for k, v in vars(self).items():
             ET.SubElement(scenariosettingsElement, str(k)).text = str(v)
+
+    def plotRadarOutline(self, ax, **kwargs):
+        from matplotlib.patches import Ellipse
+        if kwargs.get("markCenter", True):
+            ax.plot(self.p0[0], self.p0[0], "bo")
+        circle = Ellipse((self.p0[0], self.p0[1]), self.radarRange * 2, self.radarRange * 2,
+                         edgecolor="black", linestyle="dotted", facecolor="none")
+        ax.add_artist(circle)
 
 
 class Scenario(ScenarioBase):
